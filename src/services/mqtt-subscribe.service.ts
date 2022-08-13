@@ -12,13 +12,13 @@ export class MqttSubscribeService {
     ) {
 
         const clientID = 'client_' + Math.random().toString(16).slice(2, 8);
-        const broker = "51.145.95.34" //process.env.ECS_BROKER_HOST;
+        const broker = process.env.MQTT_BROKER_HOST;
 
         const options: IClientOptions = {
             clientId: clientID,
             port: 1883,
-            username: "physio",
-            password: "maurook",
+            username: process.env.MQTT_USERNAME,
+            password: process.env.MQTT_PASSWORD,
             //  clean: true,
             rejectUnauthorized: false,
         };
