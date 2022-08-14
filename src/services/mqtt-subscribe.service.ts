@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Client, connect, IClientOptions, IConnackPacket } from 'mqtt';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { TelemetryInterface } from "src/interfaces/telemetry.interface";
 
 @Injectable()
 export class MqttSubscribeService {
@@ -50,8 +51,9 @@ export class MqttSubscribeService {
         });
 
         this._client.on('message', async (topic: string, payload: Buffer) => {
-            console.log(payload.toString());
-        });
+            this.eventEmitter.emit('mqtt.telemetry', JSON.parse(payload.toString()) as TelemetryInterface)
+        },
+        );
     }
 
     public async subscribe(topic: string): Promise<void> {

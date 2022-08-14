@@ -10,6 +10,8 @@ This is a demo project for show as you can read a json object from a mqtt broker
 $ npm install
 ```
 
+Then rename `env-example` file in `.env`.
+
 ## Running the app
 
 ```bash
