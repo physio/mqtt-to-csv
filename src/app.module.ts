@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { MqttSubscribeService } from './services/mqtt-subscribe.service';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule } from '@nestjs/config';
+import { TelemetryNewListener } from './listeners/telemetry-new.listener';
 
 @Module({
   imports: [
@@ -11,6 +12,10 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot()
   ],
   controllers: [AppController],
-  providers: [AppService, MqttSubscribeService],
+  providers: [
+    AppService,
+    MqttSubscribeService,
+    TelemetryNewListener
+  ],
 })
 export class AppModule { }
