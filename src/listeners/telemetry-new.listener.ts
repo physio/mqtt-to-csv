@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { FileClass } from 'src/classes/file.class';
 import { machine } from 'src/consts/machine.const';
 import { TelemetryInterface } from '../interfaces/telemetry.interface';
@@ -10,7 +10,10 @@ export class TelemetryNewListener {
     private _fileClass: FileClass; // = new FileClass();
 
 
-    constructor() {
+    constructor(
+        private eventEmitter: EventEmitter2,
+
+    ) {
         this.createFile();
     }
 
@@ -25,15 +28,16 @@ export class TelemetryNewListener {
 
 
     @OnEvent('mqtt.telemetry')
-    async handleAlarmConvertedEvent(event: TelemetryInterface) {
+    async handleMqttTelemetrydEvent(event: TelemetryInterface) {
         this.fileState.dispatch('next');
         if (this.fileState.state === 'CLOSED') {
             Logger.log('File closed.')
+            this.eventEmitter.emit('csv.closed', this._fileClass.fileName)
+
             this.createFile();
             this.fileState = Object.create(machine)
         } else {
             this._fileClass.append(event)
-            Logger.log(event)
         }
     }
 }
