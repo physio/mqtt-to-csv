@@ -1,3 +1,4 @@
+import { logger } from '@azure/storage-blob';
 import { Logger } from '@nestjs/common';
 import { TelemetryInterface } from 'src/interfaces/telemetry.interface';
 import { json } from 'stream/consumers';
@@ -16,7 +17,9 @@ export class FormatStringClass {
         let moment = require('moment');
         let now = moment().valueOf();
 
-        return `${now},${telemetry.accelerometer.x},${telemetry.accelerometer.y},${telemetry.accelerometer.z},${telemetry.gyro.x},${telemetry.gyro.y},${telemetry.gyro.z},${telemetry.humidity},${telemetry.lightSensor},${telemetry.magnetometer.r},${telemetry.magnetometer.x},${telemetry.magnetometer.y},${telemetry.magnetometer.z},${telemetry.noiseSensor},${telemetry.pressure},${telemetry.temperature}\n`
+        let result = `${now},${telemetry.accelerometer.x},${telemetry.accelerometer.y},${telemetry.accelerometer.z},${telemetry.gyro.x},${telemetry.gyro.y},${telemetry.gyro.z},${telemetry.humidity},${telemetry.lightSensor},${telemetry.magnetometer.r},${telemetry.magnetometer.x},${telemetry.magnetometer.y},${telemetry.magnetometer.z},${telemetry.noiseSensor},${telemetry.pressure},${telemetry.temperature}\n`
+        Logger.log(`New row: ${result.replace(/[\r\n]/gm, '')}`);
+        return result;
     }
 
     /**

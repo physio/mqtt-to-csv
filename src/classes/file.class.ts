@@ -35,7 +35,6 @@ export class FileClass {
     public append(telemetry: TelemetryInterface) {
         let row = FormatStringClass.getString(telemetry);
 
-        console.log(row)
         fs.appendFile(this.fileName, row, (err) => {
             if (err) throw err;
             //.error(err);

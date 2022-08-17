@@ -7,7 +7,6 @@ export const machine = {
         EMPTY: {
             next() {
                 this.state = 'APPEND'
-                Logger.log(this.state);
             }
         },
         APPEND: {
@@ -18,14 +17,11 @@ export const machine = {
                 } else {
                     this.state = "CLOSE";
                 }
-
-                Logger.log(this.state);
             },
         },
         CLOSE: {
             next() {
                 this.state = 'CLOSED';
-                Logger.log(this.state);
             },
         },
     },
