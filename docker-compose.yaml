@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+    redis:
+        environment:
+            - REDIS_PASSWORD=6yzNNLqzzTsEnYbYredis
+        volumes:
+            - 'redis-data:/data'
+        ports:
+            - '6379:6379'
+        container_name: redis
+        restart: always
+        image: 'redis:7.0.4-alpine'
+        command: /bin/sh "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+        
+    eclipse-mosquitto:
+        ports:
+            - '1883:1883'
+        container_name: mosquitto
+        restart: always
+        volumes:
+            - '/srv/mosquitto/config:/mosquitto/config'
+            - '/srv/mosquitto/log:/mosquitto/log'
+            - '/srv/mosquitto/data/:/mosquitto/data'
+        image: eclipse-mosquitto        
+        
+    application:
+    	container_name: application
+         image: 'avanadedemos.azurecr.io/managetopics:latest'
+         environment:
+            - MQTT_BROKER_HOST=mosquitto
+            - MQTT_USERNAME=physio
+            - MQTT_PASSWORD=maurook
+            - DEVICE_ID=XDK110
+            - ROWS_IN_CSV=1500
+            - AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=menteldemoproject;AccountKey=QByCHSaB/bppgeq1qSy26J+H5Jz4DWz9XBHqwoXolN7AWrzYBHMSs+qAMUOD0905uRNBHgYzYaAR+ASt+2NW/A==;EndpointSuffix=core.windows.net"
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+            - REDIS_CACHE_TTL=20
+            - REDIS_PASSWORD=6yzNNLqzzTsEnYbYredis  
+            
