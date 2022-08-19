@@ -32,7 +32,7 @@ export class MqttSubscribeService {
         this._client.on('connect', (packet: IConnackPacket) => {
             Logger.log(`Connected to Broker ${broker}: ${JSON.stringify(packet)}. Ready to work`, 'mqttClientService');
             this.eventEmitter.emit('mqtt.connected', true);
-            this.subscribe("XDK110/data/out")
+            this.subscribe(`${process.env.DEVICE_ID}/data/out`)
         });
 
         // handle error

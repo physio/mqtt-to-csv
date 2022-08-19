@@ -5,7 +5,7 @@ import { machine } from 'src/consts/machine.const';
 import { TelemetryInterface } from '../interfaces/telemetry.interface';
 
 @Injectable()
-export class TelemetryNewListener {
+export class AppendTelemetryListener {
     private fileState = Object.create(machine);
     private _fileClass: FileClass; // = new FileClass();
 
