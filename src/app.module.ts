@@ -1,4 +1,5 @@
 import { CacheModule, Module } from '@nestjs/common';
+import { HttpModule } from 'nestjs-http-promise'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MqttSubscribeService } from './services/mqtt-subscribe.service';
@@ -10,9 +11,14 @@ import { UploadListener } from './listeners/upload.listener';
 import { AzureStorageModule } from '@nestjs/azure-storage';
 import { UpdateRedisListener } from './listeners/update-redis.listener';
 import * as redisStore from 'cache-manager-redis-store';
+import { SendCustomUrlListener } from './listeners/send-custom-url.listener';
 
 @Module({
   imports: [
+    HttpModule.register({
+      timeout: 5000,
+      retries: 5,
+    }),
     EventEmitterModule.forRoot(),
     ConfigModule.forRoot(),
     AzureStorageModule.withConfig({
@@ -33,6 +39,7 @@ import * as redisStore from 'cache-manager-redis-store';
     AppService,
     MqttSubscribeService,
     AppendTelemetryListener,
+    SendCustomUrlListener,
     UpdateRedisListener,
     UploadListener,
     BlobService
