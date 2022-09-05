@@ -12,6 +12,8 @@ import { AzureStorageModule } from '@nestjs/azure-storage';
 import { UpdateRedisListener } from './listeners/update-redis.listener';
 import * as redisStore from 'cache-manager-redis-store';
 import { SendCustomUrlListener } from './listeners/send-custom-url.listener';
+import { IotHubService } from './services/iot-hub.service';
+import { SendToIotHublListener } from './listeners/send-to-iot-hub.listener';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { SendCustomUrlListener } from './listeners/send-custom-url.listener';
   providers: [
     AppService,
     MqttSubscribeService,
+    IotHubService,
+    SendToIotHublListener,
     AppendTelemetryListener,
     SendCustomUrlListener,
     UpdateRedisListener,

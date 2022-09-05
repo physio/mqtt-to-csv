@@ -18,7 +18,7 @@ export class FormatStringClass {
         let now = moment().valueOf();
 
         let result = `${now},${telemetry.accelerometer.x},${telemetry.accelerometer.y},${telemetry.accelerometer.z},${telemetry.gyro.x},${telemetry.gyro.y},${telemetry.gyro.z},${telemetry.humidity},${telemetry.lightSensor},${telemetry.magnetometer.r},${telemetry.magnetometer.x},${telemetry.magnetometer.y},${telemetry.magnetometer.z},${telemetry.noiseSensor},${telemetry.pressure},${telemetry.temperature}\n`
-        Logger.log(`New row: ${result.replace(/[\r\n]/gm, '')}`);
+        Logger.log(`New row: ${result.replace(/[\r\n]/gm, '')}`, 'FormatStringClass');
         return result;
     }
 
