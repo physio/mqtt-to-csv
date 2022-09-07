@@ -3,6 +3,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { TelemetryInterface } from '../interfaces/telemetry.interface';
 import { HttpService } from 'nestjs-http-promise';
 import { Cache } from 'cache-manager';
+import moment from 'moment';
 
 @Injectable()
 export class SendCustomUrlListener {
@@ -21,8 +22,12 @@ export class SendCustomUrlListener {
     @OnEvent('mqtt.telemetry')
     async sendTelemetry(event: TelemetryInterface): Promise<void> {
 
-        let dataBI = {
-            "time": Math.floor(Date.now() / 1000),
+        var moment = require('moment'); // require
+        
+        let c = moment().format();
+
+        let dataBI ={
+            "time": c,
             "noiseSensor": event.noiseSensor,
             "lightSensor": event.lightSensor,
             "humidity": event.humidity,
@@ -44,7 +49,7 @@ export class SendCustomUrlListener {
 
             let lastUpdate = await this.cacheManager.get(`${process.env.DEVICE_ID}:customUrl:lastUpdate`);
             if (lastUpdate == null) {
-                let result = await this.cacheManager.set(`${process.env.DEVICE_ID}:customUrl:lastUpdate`, Date.now() / 1000 | 0, { ttl: 12 })
+                let result = await this.cacheManager.set(`${process.env.DEVICE_ID}:customUrl:lastUpdate`, Date.now() / 1000 | 0, { ttl: 3 })
                     .catch(err => {
                         Logger.error('E001: ' + err, 'SendCustomUrlListener');
                     });
