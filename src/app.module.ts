@@ -14,6 +14,7 @@ import * as redisStore from 'cache-manager-redis-store';
 import { SendCustomUrlListener } from './listeners/send-custom-url.listener';
 import { IotHubService } from './services/iot-hub.service';
 import { SendToIotHublListener } from './listeners/send-to-iot-hub.listener';
+import { UpdateRedisStreamListener } from './listeners/update-redis-stream.listener';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { SendToIotHublListener } from './listeners/send-to-iot-hub.listener';
     AppendTelemetryListener,
     SendCustomUrlListener,
     UpdateRedisListener,
+    UpdateRedisStreamListener,
     UploadListener,
     BlobService
   ],

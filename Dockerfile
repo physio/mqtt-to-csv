@@ -1,4 +1,4 @@
-FROM node:14-alpine AS development
+FROM node:16-alpine AS development
 
 ENV NODE_ENV=development
 WORKDIR /app
@@ -19,7 +19,7 @@ RUN npm run build
 # Create the base Stage
 #
 #FROM arm32v7/node:14-alpine AS base
-FROM node:14-alpine AS baseProd
+FROM node:16-alpine AS baseProd
 ENV NODE_ENV=production
 WORKDIR /app
 RUN ls -la
