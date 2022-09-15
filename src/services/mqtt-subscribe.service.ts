@@ -32,7 +32,13 @@ export class MqttSubscribeService {
         this._client.on('connect', (packet: IConnackPacket) => {
             Logger.log(`Connected to Broker ${broker}: ${JSON.stringify(packet)}. Ready to work`, 'mqttClientService');
             this.eventEmitter.emit('mqtt.connected', true);
-            this.subscribe(`${process.env.DEVICE_ID}/data/out`)
+
+            // subscribe to sensors
+            this.subscribe(`${process.env.DEVICE_ID}/data/out`);
+
+            //subscribe to Braccio
+            this.subscribe(`braccio/piece`)
+            this.subscribe(`braccio/anomaly`)
         });
 
         // handle error
@@ -51,7 +57,18 @@ export class MqttSubscribeService {
         });
 
         this._client.on('message', async (topic: string, payload: Buffer) => {
-            this.eventEmitter.emit('mqtt.telemetry', JSON.parse(payload.toString()) as TelemetryInterface)
+
+            if (topic == `${process.env.DEVICE_ID}/data/out`) {
+                this.eventEmitter.emit('mqtt.telemetry', JSON.parse(payload.toString()) as TelemetryInterface)
+            }
+
+            if (topic == `braccio/piece`) {
+                this.eventEmitter.emit('mqtt.piece', JSON.parse(payload.toString()) as string)
+            }
+
+            if (topic == `braccio/anomaly`) {
+                this.eventEmitter.emit('mqtt.anomaly', JSON.parse(payload.toString()) as string)
+            }
         },
         );
     }

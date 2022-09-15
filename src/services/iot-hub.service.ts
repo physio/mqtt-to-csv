@@ -43,9 +43,14 @@ export class IotHubService {
     protected disconnectHandler(): void {
         clearInterval(30000);
 
-        this.client.open().catch((err) => {
-            Logger.error(err.message);
-        });
+        try {
+            this.client.open().catch((err) => {
+                Logger.error(err.message);
+            });
+        } catch {
+            console.log('error')
+        }
+
     }
 
     protected connectHandler(): void {
@@ -70,6 +75,7 @@ export class IotHubService {
     }
 
 
+    // eslint-disable-next-line @typescript-eslint/ban-types
     public generateMessage(telemetry: TelemetryInterface): Object {
         const data = {
             // deviceId: process.env.DEVICE_ID,
