@@ -8,13 +8,17 @@ import { TelemetryInterface } from '../interfaces/telemetry.interface';
 export class AppendTelemetryListener {
     private fileState = Object.create(machine);
     private _fileClass: FileClass; // = new FileClass();
+    private _enabled: boolean = true //process.env.ENABLE_CSV as unknown as boolean;
 
 
     constructor(
         private eventEmitter: EventEmitter2,
 
     ) {
-        this.createFile();
+        if (this._enabled) {
+            this.createFile();
+        }
+        Logger.warn(`append telemetry to file status: ${this._enabled}`);
     }
 
     protected createFile() {
@@ -29,15 +33,18 @@ export class AppendTelemetryListener {
 
     @OnEvent('mqtt.telemetry')
     async handleMqttTelemetrydEvent(event: TelemetryInterface) {
-        this.fileState.dispatch('next');
-        if (this.fileState.state === 'CLOSED') {
-            Logger.log('File closed.')
-            this.eventEmitter.emit('csv.closed', this._fileClass.fileName)
+        if (this._enabled == true) {
 
-            this.createFile();
-            this.fileState = Object.create(machine)
-        } else {
-            this._fileClass.append(event)
+            this.fileState.dispatch('next');
+            if (this.fileState.state === 'CLOSED') {
+                Logger.log('File closed.')
+                this.eventEmitter.emit('csv.closed', this._fileClass.fileName)
+
+                this.createFile();
+                this.fileState = Object.create(machine)
+            } else {
+                this._fileClass.append(event)
+            }
         }
     }
 }

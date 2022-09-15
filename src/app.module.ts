@@ -12,9 +12,31 @@ import { AzureStorageModule } from '@nestjs/azure-storage';
 import { UpdateRedisListener } from './listeners/update-redis.listener';
 import * as redisStore from 'cache-manager-redis-store';
 import { SendCustomUrlListener } from './listeners/send-custom-url.listener';
+import { IotHubService } from './services/iot-hub.service';
+import { SendToIotHublListener } from './listeners/send-to-iot-hub.listener';
+import { UpdateRedisStreamListener } from './listeners/update-redis-stream.listener';
+import { BarcodeService } from './services/barcode.service';
+import { OrderNewListener } from './listeners/order-new.listener';
+import { ManageCountPiecesListener } from './listeners/manage-count-pieces.listener';
+import { Piece } from './models/piece.model';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { PieceFromMqttListener } from './listeners/piece-from-mqtt.listener';
+import { AnomalyFromMqttListener } from './listeners/anomaly-from-mqtt.listener';
+import { KeyPressService } from './services/keypad.service';
 
 @Module({
   imports: [
+    SequelizeModule.forFeature([Piece]),
+    SequelizeModule.forRoot({
+      dialect: 'mysql',
+      host: '51.145.95.34',
+      port: 3306,
+      username: 'root',
+      password: '%Kf76x4HC5s!',
+      database: 'avanade',
+      autoLoadModels: true,
+      synchronize: true,
+    }),
     HttpModule.register({
       timeout: 5000,
       retries: 5,
@@ -36,13 +58,22 @@ import { SendCustomUrlListener } from './listeners/send-custom-url.listener';
   ],
   controllers: [AppController],
   providers: [
-    AppService,
-    MqttSubscribeService,
+    SendToIotHublListener,
     AppendTelemetryListener,
     SendCustomUrlListener,
     UpdateRedisListener,
+    UpdateRedisStreamListener,
+    OrderNewListener,
+    ManageCountPiecesListener,
     UploadListener,
-    BlobService
+    PieceFromMqttListener,
+    AnomalyFromMqttListener,
+    BlobService,
+    BarcodeService,
+    AppService,
+    MqttSubscribeService,
+    IotHubService,
+    KeyPressService
   ],
 })
 export class AppModule { }
