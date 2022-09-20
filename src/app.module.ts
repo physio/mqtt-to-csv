@@ -18,25 +18,15 @@ import { UpdateRedisStreamListener } from './listeners/update-redis-stream.liste
 import { BarcodeService } from './services/barcode.service';
 import { OrderNewListener } from './listeners/order-new.listener';
 import { ManageCountPiecesListener } from './listeners/manage-count-pieces.listener';
-import { Piece } from './models/piece.model';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { PieceFromMqttListener } from './listeners/piece-from-mqtt.listener';
 import { AnomalyFromMqttListener } from './listeners/anomaly-from-mqtt.listener';
 import { KeyPressService } from './services/keypad.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksService } from './services/tasks.service';
 
 @Module({
   imports: [
-    //  SequelizeModule.forFeature([Piece]),
-    /*  SequelizeModule.forRoot({
-        dialect: 'mysql',
-        host: '51.145.95.34',
-        port: 3306,
-        username: 'root',
-        password: '%Kf76x4HC5s!',
-        database: 'avanade',
-        autoLoadModels: true,
-        synchronize: true,
-      }),*/
+    ScheduleModule.forRoot(),
     HttpModule.register({
       timeout: 5000,
       retries: 5,
@@ -73,7 +63,8 @@ import { KeyPressService } from './services/keypad.service';
     AppService,
     MqttSubscribeService,
     IotHubService,
-    KeyPressService
+    KeyPressService,
+    TasksService,
   ],
 })
 export class AppModule { }

@@ -33,7 +33,7 @@ export class FileClass {
      * @returns {any}
      */
     public append(telemetry: TelemetryInterface) {
-        let row = FormatStringClass.getString(telemetry);
+        const row = FormatStringClass.getString(telemetry);
 
         fs.appendFile(this.fileName, row, (err) => {
             if (err) throw err;
@@ -41,8 +41,19 @@ export class FileClass {
         });
     }
 
-    public close() {
+    public delete() {
+        fs.stat('*.csv', function (err, stats) {
+            console.log(stats);//here we got all information of file in stats variable
 
+            if (err) {
+                return console.error(err);
+            }
+
+            fs.unlink('.csv', function (err) {
+                if (err) return console.log(err);
+                console.log('file deleted successfully');
+            });
+        });
     }
 
 }
