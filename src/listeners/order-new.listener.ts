@@ -19,6 +19,10 @@ export class OrderNewListener {
         const ProductionOrderNumber = words[1];
         const LotId = words[2];
 
+        Logger.log("New Item Number: " + ItemNumber);
+        Logger.log("New Production Order Number: " + ProductionOrderNumber);
+        Logger.log("New Lot Id: " + LotId);
+
         await this.cacheManager.set(`ItemNumber`, ItemNumber)
             .catch(err => {
                 Logger.error('E0021: ' + err, 'handleMqttTelemetrydEvent');

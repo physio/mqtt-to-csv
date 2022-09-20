@@ -26,17 +26,17 @@ import { KeyPressService } from './services/keypad.service';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Piece]),
-    SequelizeModule.forRoot({
-      dialect: 'mysql',
-      host: '51.145.95.34',
-      port: 3306,
-      username: 'root',
-      password: '%Kf76x4HC5s!',
-      database: 'avanade',
-      autoLoadModels: true,
-      synchronize: true,
-    }),
+    //  SequelizeModule.forFeature([Piece]),
+    /*  SequelizeModule.forRoot({
+        dialect: 'mysql',
+        host: '51.145.95.34',
+        port: 3306,
+        username: 'root',
+        password: '%Kf76x4HC5s!',
+        database: 'avanade',
+        autoLoadModels: true,
+        synchronize: true,
+      }),*/
     HttpModule.register({
       timeout: 5000,
       retries: 5,

@@ -63,10 +63,13 @@ export class MqttSubscribeService {
             }
 
             if (topic == `braccio/piece`) {
+                console.log('fatto un pezzo')
                 this.eventEmitter.emit('mqtt.piece', JSON.parse(payload.toString()) as string)
             }
 
             if (topic == `braccio/anomaly`) {
+                console.log('fatto un pezzo')
+
                 this.eventEmitter.emit('mqtt.anomaly', JSON.parse(payload.toString()) as string)
             }
         },

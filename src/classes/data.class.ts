@@ -8,7 +8,8 @@ export class DataClass {
      * @returns {any}
      */
     public static getNow(): string {
-        var moment = require('moment');
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const moment = require('moment');
         return "data-" + moment().format('YYYY-MM-DD-HH-mm-ss');
     }
 }

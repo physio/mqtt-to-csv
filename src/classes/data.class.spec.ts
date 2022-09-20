@@ -4,7 +4,7 @@ jest.mock('moment', () => {
     return () => jest.requireActual('moment')('2020-01-01T00:00:00.000Z');
 });
 
-let dataClass = new DataClass;
+const dataClass = new DataClass;
 
 
 describe('DataClass', () => {

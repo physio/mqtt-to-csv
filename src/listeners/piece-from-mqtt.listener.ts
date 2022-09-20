@@ -1,15 +1,11 @@
 import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { TelemetryInterface } from '../interfaces/telemetry.interface';
 import { HttpService } from 'nestjs-http-promise';
 import { Cache } from 'cache-manager';
-import moment from 'moment';
 
 
 @Injectable()
 export class PieceFromMqttListener {
-
-    private tot = 1;
 
     constructor(
         private httpService: HttpService,
@@ -44,7 +40,7 @@ export class PieceFromMqttListener {
                 "ItemNumber": ItemNumber,
                 "ProductionOrderNumber": ProductionOrderNumber,
                 "LotId": LotId,
-                "LineNumber": this.tot++
+                "LineNumber": 1
             }
 
             await this.httpService.post(process.env.ADD_PIECE_URL, piece)
@@ -55,7 +51,6 @@ export class PieceFromMqttListener {
                 .catch(err => {
                     Logger.error('E002: ' + err + " " + process.env.ADD_PIECE_URL, 'SendCustomUrlListener');
                 });
-
         }
     }
 }

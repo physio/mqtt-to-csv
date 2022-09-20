@@ -18,13 +18,11 @@ export class SendToIotHublListener {
         if (this._enabled) {
             let lastUpdate = await this.cacheManager.get(`${process.env.DEVICE_ID}:iotHub:lastUpdate`);
             if (lastUpdate == null) {
-                console.log('gestisco un invio a iot hub')
                 let result = await this.cacheManager.set(`${process.env.DEVICE_ID}:iotHub:lastUpdate`, Date.now() / 1000 | 0, { ttl: 11 })
                     .catch(err => {
                         Logger.error('E001: ' + err, 'SendToIotHublListener');
                     });
                 let object = this.iotHubService.generateMessage(event);
-                console.log('object vale', object)
 
                 let call = this.iotHubService.send(object)
 

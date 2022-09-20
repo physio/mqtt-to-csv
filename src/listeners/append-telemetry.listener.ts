@@ -8,7 +8,7 @@ import { TelemetryInterface } from '../interfaces/telemetry.interface';
 export class AppendTelemetryListener {
     private fileState = Object.create(machine);
     private _fileClass: FileClass; // = new FileClass();
-    private _enabled: boolean = true //process.env.ENABLE_CSV as unknown as boolean;
+    private _enabled = true //process.env.ENABLE_CSV as unknown as boolean;
 
 
     constructor(

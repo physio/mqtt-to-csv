@@ -15,9 +15,8 @@ export class UpdateRedisStreamListener {
 
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
 
-    ) { 
-
-       }
+    ) {
+    }
 
 
 
@@ -27,8 +26,8 @@ export class UpdateRedisStreamListener {
     async handleMqttTelemetrydEvent(event: TelemetryInterface) {
         this._buffer.push(event);
         await this.cacheManager.set(`${process.env.DEVICE_ID}:data:acc_x`, this._buffer.getData())
-                        .catch(err => {
-                            Logger.error('E0021: ' + err, 'handleMqttTelemetrydEvent');
-                        });
+            .catch(err => {
+                Logger.error('E0021: ' + err, 'handleMqttTelemetrydEvent');
+            });
     }
 }
